@@ -24,7 +24,10 @@ function NewPlayerForm({ onPlayerAdded }) {
         }),
       });
       const json = await response.json();
-      if (onPlayerAdded) onPlayerAdded(json.data.player);
+      if (json.success) {
+        onPlayerAdded(json.data.player);
+      }
+
       setName("");
       setBreed("");
       setStatus("");
@@ -35,7 +38,6 @@ function NewPlayerForm({ onPlayerAdded }) {
   }
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add New Player</h2>
       <label>
         Name:
         <input
@@ -49,7 +51,7 @@ function NewPlayerForm({ onPlayerAdded }) {
         Breed:
         <input
           type="text"
-          value={name}
+          value={breed}
           onChange={(e) => setBreed(e.target.value)}
           required
         />
@@ -58,7 +60,7 @@ function NewPlayerForm({ onPlayerAdded }) {
         Status:
         <input
           type="text"
-          value={name}
+          value={status}
           onChange={(e) => setStatus(e.target.value)}
           required
         />
@@ -67,11 +69,13 @@ function NewPlayerForm({ onPlayerAdded }) {
         Picture:
         <input
           type="text"
-          value={name}
+          value={imageUrl}
           onChange={(e) => setImageUrl(e.target.value)}
           required
         />
       </label>
+      <button type="submit">ADD</button>
     </form>
   );
 }
+export default NewPlayerForm;
