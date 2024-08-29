@@ -32,8 +32,15 @@ export async function removePlayer(playerId) {
         method: "DELETE",
       }
     );
-  } catch (error) {
-    console.log(error);
+    const result = await response.json();
+    console.log(result);
+    console.log(playerId);
+    return result;
+  } catch (err) {
+    console.error(
+      `Whoops, trouble removing player #${playerId} from the roster!`,
+      err
+    );
   }
 }
 
@@ -46,7 +53,7 @@ export async function addPlayer(playerData) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ player: playerData }),
+        body: JSON.stringify(playerData),
       }
     );
 

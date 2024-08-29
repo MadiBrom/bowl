@@ -2,27 +2,26 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addPlayer } from "../API";
 
-function AddNewPlayer() {
+function AddNewPlayer({ players, setPlayers }) {
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [players, setPlayers] = useState([]);
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const playerData = {
-      name,
-      breed,
-      imageUrl,
-    };
-
+    if (!name || !breed) {
+      alert("Name and breed are required.");
+      return;
+    }
+    const playerData = { name, breed, imageUrl };
     try {
       const newPlayer = await addPlayer(playerData);
-      setPlayers([...players, newPlayer]);
+      console.log("API response:", newPlayer);
+      setPlayers([...players, newPlayer.data.newPlayer]);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.log("Error adding player:", error);
     }
   }
 

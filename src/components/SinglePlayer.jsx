@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { fetchPlayerById, removePlayer } from "../API";
-import { useNavigate } from "react-router-dom";
+import { fetchPlayerById } from "../API";
+import { useNavigate, useParams } from "react-router-dom";
 
 function OnePlayer() {
   const navigate = useNavigate;
@@ -36,15 +35,7 @@ function OnePlayer() {
           <br />
           <img src={player.imageUrl} alt={player.name} />
           <br />
-          <button
-            onClick={async () => {
-              await removePlayer(player.id);
-              navigate("/");
-            }}
-            className="deleteButton"
-          >
-            Delete Player
-          </button>
+          <button onClick={() => navigate("/AllPlayers")}>Back</button>
         </ul>
       </main>
     </div>
