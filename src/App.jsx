@@ -23,10 +23,6 @@ function App() {
           path="/"
           element={<AllPlayers players={players} setPlayers={setPlayers} />}
         />
-        <Route
-          path="/NewPlayerForm"
-          element={<AddNewPlayer players={players} setPlayers={setPlayers} />}
-        />
         <Route path="/player/:id" element={<OnePlayer />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
