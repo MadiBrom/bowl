@@ -1,33 +1,31 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
-import React from "react";
-import allPlayers from "./components/AllPlayers";
-import addNewPlayer from "./components/NewPlayerForm";
+import { Route, Routes } from "react-router-dom";
+import AllPlayers from "./components/AllPlayers";
+import OnePlayer from "./components/SinglePlayer";
+import { fetchAllPlayers } from "./API";
+import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
+  const [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      const data = await fetchAllPlayers();
+      setPlayers(data);
+    };
+    fetchPlayers();
+  }, []);
+
   return (
     <div id="container">
-      <div id="navbar">
-        {/* Buttons for navigating */}
-        <button onClick={() => navigate("/")}>Show All Players</button>
-        <button onClick={() => navigate("/new-player-form")}>
-          Add New Player
-        </button>
-      </div>
-      <div id="main-section">
-        <Routes location={location}>
-          <Route path="/" element={<AllPlayers />} />
-          <Route path="/new-player-form" element={<NewPlayerForm />} />
-          <Route path="*" element={<h1>404 Not Found</h1>} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={<AllPlayers players={players} setPlayers={setPlayers} />}
+        />
+        <Route path="/player/:id" element={<OnePlayer />} />
+        <Route path="*" element={<h1>404 Not Found</h1>} />
+      </Routes>
     </div>
   );
 }
