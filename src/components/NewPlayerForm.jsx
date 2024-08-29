@@ -1,56 +1,57 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { addPlayer } from "../API";
 
 function AddNewPlayer({ players, setPlayers }) {
   const [name, setName] = useState("");
   const [breed, setBreed] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const navigate = useNavigate();
+  const [status, setStatus] = useState("active");
 
   async function handleSubmit(event) {
     event.preventDefault();
-    if (!name || !breed) {
-      alert("Name and breed are required.");
-      return;
-    }
-    const playerData = { name, breed, imageUrl };
     try {
-      const newPlayer = await addPlayer(playerData);
-      console.log("API response:", newPlayer);
-      setPlayers([...players, newPlayer.data.newPlayer]);
-      navigate("/");
+      const newPlayer = { name, breed, imageUrl };
+      await addPlayer(newPlayer);
+      setName("");
+      setBreed("");
+      setImageUrl("");
+      setStatus("active");
+      // Refresh the list of players
+      setPlayers((prevPlayers) => [...prevPlayers, newPlayer]);
     } catch (error) {
-      console.log("Error adding player:", error);
+      console.error("Error adding player:", error);
     }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Player</h2>
-      <label>Name:</label>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <br />
-      <label>Breed:</label>
-      <input
-        type="text"
-        value={breed}
-        onChange={(e) => setBreed(e.target.value)}
-        required
-      />
-      <br />
-      <label>Picture (url):</label>
-      <input
-        type="text"
-        value={imageUrl}
-        onChange={(e) => setImageUrl(e.target.value)}
-      />
-      <button type="submit">ADD</button>
+      <label>
+        Name:
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Breed:
+        <input
+          type="text"
+          value={breed}
+          onChange={(e) => setBreed(e.target.value)}
+          required
+        />
+      </label>
+      <label>
+        Image URL:
+        <input
+          type="text"
+          value={imageUrl}
+          onChange={(e) => setImageUrl(e.target.value)}
+        />
+      </label>
+      <button type="submit">Add Player</button>
     </form>
   );
 }

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import NavBar from "./NavBar"; // Import NavBar component
-import AddNewPlayer from "./NewPlayerForm";
-import { fetchAllPlayers, removePlayer } from "../API";
+import { useNavigate, Link } from "react-router-dom";
+import NavBar from "../NavBar"; // Import NavBar component
+// import AddNewPlayer from "./NewPlayerForm";
+import { fetchAllPlayers, removePlayer } from "../../API";
 
 function AllPlayers({ players, setPlayers }) {
   const navigate = useNavigate();
@@ -36,8 +36,12 @@ function AllPlayers({ players, setPlayers }) {
   return (
     <div>
       <h2 id="title">Puppy Bowl</h2>
+
+      <Link to="/NewPlayerForm">
+        <button>Add Player</button>
+      </Link>
+
       <NavBar setSearchParams={setSearchParams} />
-      <AddNewPlayer setPlayers={setPlayers} players={players} />
       <div className="players-container">
         {filteredPlayers.map((player) => (
           <div key={player.id} className="player-card">
@@ -57,6 +61,8 @@ function AllPlayers({ players, setPlayers }) {
           </div>
         ))}
       </div>
+      <NavBar setSearchParams={setSearchParams} />
+      {/* <AddNewPlayer players={players} setPlayers={setPlayers} /> */}
     </div>
   );
 }

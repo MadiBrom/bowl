@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import AllPlayers from "./components/AllPlayers";
+import AllPlayers from "./components/allplayers/";
 import OnePlayer from "./components/SinglePlayer";
 import { fetchAllPlayers } from "./API";
 import { useState, useEffect } from "react";
@@ -22,6 +22,10 @@ function App() {
         <Route
           path="/"
           element={<AllPlayers players={players} setPlayers={setPlayers} />}
+        />
+        <Route
+          path="/NewPlayerForm"
+          element={<AddNewPlayer players={players} setPlayers={setPlayers} />}
         />
         <Route path="/player/:id" element={<OnePlayer />} />
         <Route path="*" element={<h1>404 Not Found</h1>} />
